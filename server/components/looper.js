@@ -18,7 +18,9 @@ class BundestagLooper {
     for (const dir of directories) {
       const dirPath = path.join(this.baseDir, dir);
       const files = await this.readDirForPngFiles(dirPath);
-      images = images.concat(files);
+      // Convert each absolute file path to a relative path from `this.baseDir`
+      const relativeFiles = files.map(file => path.relative(this.baseDir, file));
+      images = images.concat(relativeFiles);
     }
     return images;
   }
@@ -26,8 +28,10 @@ class BundestagLooper {
   async readDirForPngFiles(dir) {
     let files = await fs.promises.readdir(dir, { withFileTypes: true });
     files = files.filter(file => !file.isDirectory() && file.name.endsWith('.png')).map(file => file.name).sort();
+    // Convert file names to full paths
     return files.map(file => path.join(dir, file));
   }
 }
+
 
 export default BundestagLooper
