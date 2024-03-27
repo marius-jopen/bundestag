@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LooperFull from './looperFull'; // Adjust the path as necessary
 import LooperLatest from './looperLatest'; // Adjust the path as necessary
+import ImagesPreview from './imagesPreview'; // Adjust the path as necessary
 
 function LooperSwitch() {
   const [displayMode, setDisplayMode] = useState('full');
@@ -20,17 +21,21 @@ function LooperSwitch() {
         </button>
         <button 
           className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs" 
-          onClick={() => handleDisplayModeChange('current')}
+          onClick={() => handleDisplayModeChange('latest')}
         >
           CURRENT
         </button>
         <button 
-          className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs" 
+          className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs"
+          onClick={() => handleDisplayModeChange('image')}
         >
           IMAGE
         </button>
       </div>
-      {displayMode === 'full' ? <LooperFull /> : <LooperLatest />}
+
+      {displayMode === 'full' && <LooperFull />}
+      {displayMode === 'latest' && <LooperLatest />}
+      {displayMode === 'image' && <ImagesPreview />}
     </div>
   );
 }

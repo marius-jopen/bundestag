@@ -20,6 +20,7 @@ const latestFolderImageLooper = new LatestFolderImageLooper(baseDir); // Initial
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static('E:/output/sd-api/images'));
 
 
 
@@ -51,6 +52,23 @@ app.get('/list-latest-images', async (req, res) => {
     res.status(500).json({ message: 'Error listing images from the latest folder.' });
   }
 });
+
+app.get('/list-static-images', async (req, res) => {
+  const imagesDir = 'E:/output/sd-api/images';
+
+  try {
+    const files = await fs.promises.readdir(imagesDir);
+    const imageFiles = files.filter(file => file.match(/\.(jpg|jpeg|png|gif)$/i))
+                            .sort((a, b) => fs.statSync(path.join(imagesDir, b)).mtime.getTime() - 
+                                           fs.statSync(path.join(imagesDir, a)).mtime.getTime());
+    res.json(imageFiles);
+  } catch (error) {
+    console.error('Failed to list images', error);
+    // Make sure to return a JSON response
+    res.status(500).json({ message: 'Failed to list images', error: error.message });
+  }
+});
+
 
 // Add a new route to serve the images
 app.get('/list-bundestag-images', async (req, res) => {

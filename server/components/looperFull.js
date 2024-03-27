@@ -8,7 +8,10 @@ class BundestagLooper {
 
   async findAllPngImages() {
     let directories = await fs.promises.readdir(this.baseDir, { withFileTypes: true });
-    directories = directories.filter(dir => dir.isDirectory()).map(dir => dir.name).sort();
+    directories = directories
+      .filter(dir => dir.isDirectory() && dir.name.startsWith('BT_'))
+      .map(dir => dir.name)
+      .sort();
 
     if (directories.length === 0) {
       return []; // Return an empty array if no directories are found
@@ -27,11 +30,12 @@ class BundestagLooper {
 
   async readDirForPngFiles(dir) {
     let files = await fs.promises.readdir(dir, { withFileTypes: true });
-    files = files.filter(file => !file.isDirectory() && file.name.endsWith('.png')).map(file => file.name).sort();
+    files = files.filter(file => !file.isDirectory() && file.name.endsWith('.png'))
+      .map(file => file.name)
+      .sort();
     // Convert file names to full paths
     return files.map(file => path.join(dir, file));
   }
 }
 
-
-export default BundestagLooper
+export default BundestagLooper;
