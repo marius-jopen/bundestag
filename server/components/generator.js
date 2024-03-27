@@ -137,6 +137,8 @@ class Bundestag {
     }
   }
 
+  
+
   async generateBundestag(parameters) {
     try {
       const nextBatchNumber = await this.getNextBatchNumber();
@@ -497,6 +499,7 @@ class Bundestag {
       throw error;
     }
   }
+
   
 }
 

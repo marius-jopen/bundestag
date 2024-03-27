@@ -22,8 +22,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static('E:/output/sd-api/images'));
 
-
-
 // Serve images dynamically from their path
 app.get('/list-folders', async (req, res) => {
   try {

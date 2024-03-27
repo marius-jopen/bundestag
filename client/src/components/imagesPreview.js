@@ -19,10 +19,11 @@ function ImagesPreview() {
   };
 
   return (
-    <div className="images-preview cursor-pointer rounded-xl overflow-hidden" onClick={handleImageClick}>
+    <div className="images-preview cursor-pointer" onClick={handleImageClick}>
       {images.length > 0 && (
         <>
           <img
+          className=' rounded-xl'
             src={`/images/${images[currentImageIndex]}`}
             alt="Slideshow"
             style={{ maxWidth: '100%', maxHeight: '90vh' }}
