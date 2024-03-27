@@ -5,7 +5,7 @@ function ImagesPreview() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:4000/list-static-images')
+    fetch('http://localhost:4000/list-preview-images')
       .then(response => response.json())
       .then(data => {
         setImages(data);

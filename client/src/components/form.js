@@ -17,7 +17,7 @@ export default function BundestagPromptsForm() {
     const parameters = {
       deforum_settings: {
         "prompts": {
-          "0": formattedPrompts  + " () " + positivePrompts + " " + loras + " --neg " + negativePrompts,
+          "0": formattedPrompts  + " // " + positivePrompts + " " + loras + " --neg " + negativePrompts,
           [keyframe.toString()]: formattedPrompts  + " // " + positivePrompts + " " + loras + " --neg " + negativePrompts  // Use the calculated keyframe
         },
         "max_frames": parseInt(maxFrames, 10),
@@ -25,7 +25,7 @@ export default function BundestagPromptsForm() {
     };
 
     try {
-      const response = await fetch('/generate-bundestag', {
+      const response = await fetch('/generate-animation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default function BundestagPromptsForm() {
     };
 
     try {
-      const response = await fetch('/generate-bundestag-image', {
+      const response = await fetch('/generate-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export default function BundestagPromptsForm() {
       <form onSubmit={handleSubmit} className='text-xs'>
         <div className='flex gap-4 mb-4'>
           <label htmlFor="maxFrames" className='min-w-24'>
-          Prompts:
+            Prompts:
           </label>
           <textarea
             className='w-full h-32 bg-white border rounded-xl px-3 py-2'

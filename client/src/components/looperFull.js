@@ -7,7 +7,7 @@ function LooperFull() {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch('http://localhost:4000/list-bundestag-images');
+      const response = await fetch('http://localhost:4000/list-animation-images');
       const imageData = await response.json();
       setImages(imageData);
     } catch (error) {

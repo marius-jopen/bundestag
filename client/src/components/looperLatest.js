@@ -8,7 +8,7 @@ function LooperLatest() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('http://localhost:4000/list-latest-images');
+        const response = await fetch('http://localhost:4000/list-latest-animation-images');
         const data = await response.json();
 
         if (data && data.length > 0) {
@@ -35,7 +35,7 @@ function LooperLatest() {
   }, [images, isPlaying]); // Depend on both images and isPlaying state
 
   const currentImageUrl = images.length > 0 ? `http://localhost:4000/images/${encodeURIComponent(images[currentIndex])}` : '';
-
+  
   const togglePlayPause = () => setIsPlaying(!isPlaying); // Function to toggle the playback state
 
   return (

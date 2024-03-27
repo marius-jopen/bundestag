@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 
-class Bundestag {
+class Generator {
   constructor(outputDir) {
     this.outputDir = outputDir;
   }
@@ -158,7 +158,7 @@ class Bundestag {
       // HERE I NEED TO HOOK IN AND GIVE THE secondPrompt TO CHATGPT
 
 
-      
+
 
       // Ensure the directory exists
       await fs.promises.mkdir(batchFolderPath, { recursive: true });
@@ -169,7 +169,7 @@ class Bundestag {
     }
   }
 
-  async generateBundestag(parameters) {
+  async generateAnimation(parameters) {
     try {
       const nextBatchNumber = await this.getNextBatchNumber();
       let useInit = false; // Default to false, will be updated for batches after BT_0001
@@ -197,12 +197,11 @@ class Bundestag {
           prompts["0"] = secondLastPrompt;
         }
       }
-
-      
+     
       const batchName = `BT_${String(nextBatchNumber).padStart(4, '0')}`;
       console.log(`Processing for batch: ${batchName}`);
       
-      const videoConfig = Bundestag.getVideoConfig();
+      const videoConfig = Generator.getVideoConfig();
       await this.saveSecondPromptInfo(batchName, prompts);
 
       const modifiedParameters = {
@@ -477,13 +476,13 @@ class Bundestag {
         info: "Operation completed successfully!"
       };
     } catch (error) {
-      console.error('Error in Bundestag:', error);
+      console.error('Error in Generator:', error);
       throw error;
     }
   }
 
   async generateImage(dynamicParameters) {
-    const imageConfig = Bundestag.getImageConfig();
+    const imageConfig = Generator.getImageConfig();
   
     // Merge dynamic parameters with the image configuration
     const parameters = {
@@ -531,9 +530,6 @@ class Bundestag {
       throw error;
     }
   }
-
-  
 }
 
-
-export default Bundestag;
+export default Generator;
