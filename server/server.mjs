@@ -4,36 +4,23 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-import Generator from './components/generator.js'; // Assuming this is your generator component
+import generateAnimation from './components/generator/generateAnimation.js'; // Assuming this is your generator component
 import LooperFull from './components/looperFull.js'; // Your full looper component
 import LooperLatest from './components/looperLatest.js'; // Make sure the path matches your structure
+import generateImage from './components/generator/generateImage.js'; // Adjust the path as necessary
 
 const app = express();
 const port = 4000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Assuming these paths match your project structure
 const baseDir = 'E:\\output\\sd-api';
-const generator = new Generator(baseDir); // Initialize Generator
+const animation = new generateAnimation(baseDir); // Initialize generateAnimation
 const looperFull = new LooperFull(baseDir); // Initialize LooperFull
 const looperLatest = new LooperLatest(baseDir); // Initialize LooperLatest
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images', express.static('E:/output/sd-api/images'));
-
-// Serve images dynamically from their path
-// app.get('/list-folders', async (req, res) => {
-//   try {
-//     // Assuming `baseDir` is the directory where your folders are located
-//     const folders = fs.readdirSync(baseDir).filter(file => fs.statSync(path.join(baseDir, file)).isDirectory());
-//     res.json(folders);
-//   } catch (error) {
-//     console.error('Failed to list folders', error);
-//     res.status(500).send('Failed to list folders');
-//   }
-// });
+app.use('/images', express.static(path.join(baseDir, 'images')));
 
 app.get('/images/*', (req, res) => {
   const filePath = req.params[0].replace(/\\/g, '/'); // Ensure we use forward slashes
@@ -81,7 +68,7 @@ app.get('/list-animation-images', async (req, res) => {
 // New route for animation generation
 app.post('/generate-animation', async (req, res) => {
   try {
-    const { btUrl, info } = await generator.generateAnimation(req.body);
+    const { btUrl, info } = await animation.generateAnimation(req.body);
     res.json({ bts: [btUrl], info });
   } catch (error) {
     console.error('Error:', error);
@@ -89,17 +76,17 @@ app.post('/generate-animation', async (req, res) => {
   }
 });
 
-// New route for Bundestag image generation
+// New route for image generation
 app.post('/generate-image', async (req, res) => {
+  const outputDirForImages = path.join(baseDir, 'images');
   try {
-    const { imageUrl, info } = await generator.generateImage(req.body);
+    const { imageUrl, info } = await generateImage(outputDirForImages, req.body);
     res.json({ images: [imageUrl], info });
   } catch (error) {
-    console.error('Error in generate-image:', error);
+    console.error('Error in generate-image route:', error);
     res.status(500).json({ message: 'Error generating or saving the image.' });
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
