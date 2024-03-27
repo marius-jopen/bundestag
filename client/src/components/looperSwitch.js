@@ -24,6 +24,11 @@ function LooperSwitch() {
         >
           CURRENT
         </button>
+        <button 
+          className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs" 
+        >
+          IMAGE
+        </button>
       </div>
       {displayMode === 'full' ? <LooperFull /> : <LooperLatest />}
     </div>

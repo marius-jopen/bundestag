@@ -449,50 +449,55 @@ class Bundestag {
   }
 
   async generateImage(dynamicParameters) {
-
     const imageConfig = Bundestag.getImageConfig();
-
-    const staticParameters = {
-      // n_iter: 1,
-      // batch_size: 1,
-    };
-
-    // Merge dynamic and static parameters
+  
+    // Merge dynamic parameters with the image configuration
     const parameters = {
       ...dynamicParameters,
-      ...staticParameters,
       ...imageConfig,
     };
-
+  
     try {
       const response = await fetch("http://127.0.0.1:7860/sdapi/v1/txt2img", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...parameters, // Spread the parameters object here
-        })
+        body: JSON.stringify(parameters),
       });
-
+  
       const jsonResponse = await response.json();
       const base64ImageData = jsonResponse.images[0];
       const imageData = Buffer.from(base64ImageData, 'base64');
       const timestamp = Date.now();
       const imageName = `image_${timestamp}.png`;
-      const outputPath = path.join(this.outputDir, imageName);
-
+  
+      // Define the path to the "images" directory within your output directory
+      const imagesDirPath = path.join(this.outputDir, "images");
+  
+      // Make sure the "images" directory exists
+      await fs.promises.mkdir(imagesDirPath, { recursive: true });
+  
+      // Define the full output path for the image
+      const outputPath = path.join(imagesDirPath, imageName);
+  
+      // Write the image file
       fs.writeFileSync(outputPath, imageData);
       console.log(`Image saved at: ${outputPath}`);
-      const imageUrl = `/output/txt2img/${imageName}`;
-      
+  
+      // Assuming you serve the images directory statically from /images
+      // Update the imageUrl to reflect the path relative to where you serve these files
+      // For demonstration, assuming static serving setup makes the path accessible as follows:
+      const imageUrl = `/images/${imageName}`;
+  
       return {
         imageUrl,
         info: "Image generated and saved successfully!"
       };
     } catch (error) {
       console.error('Error in ImageGenerator:', error);
-      throw error; // Re-throw the error to handle it in the calling code
+      throw error;
     }
   }
+  
 }
 
 
