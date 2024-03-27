@@ -10,23 +10,27 @@ function LooperSwitch() {
     setDisplayMode(mode);
   };
 
+  // Adjust the function to apply a different background color for the active mode
+  const getButtonClass = (mode) => 
+    `transition rounded-xl px-3 py-2 w-full text-xs ${displayMode === mode ? 'bg-gray-300' : 'bg-gray-200 hover:bg-gray-300'}`;
+
   return (
     <div className="looper-switch">
       <div className='flex gap-4 mb-4'>
         <button 
-          className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs" 
+          className={getButtonClass('full')}
           onClick={() => handleDisplayModeChange('full')}
         >
           FULL
         </button>
         <button 
-          className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs" 
+          className={getButtonClass('latest')}
           onClick={() => handleDisplayModeChange('latest')}
         >
           CURRENT
         </button>
         <button 
-          className="bg-gray-200 hover:bg-gray-300 transition rounded-xl px-3 py-2 w-full text-xs"
+          className={getButtonClass('image')}
           onClick={() => handleDisplayModeChange('image')}
         >
           IMAGE

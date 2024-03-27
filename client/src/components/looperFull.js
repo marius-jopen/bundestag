@@ -34,10 +34,10 @@ function LooperFull() {
   const togglePlayPause = () => setIsPlaying(!isPlaying);
 
   return (
-    <div className="bundestag-looper">
+    <div className="looper">
       {images.length > 0 ? (
         <>
-          <img className='cursor-pointer rounded-xl' src={currentImageUrl} alt="Bundestag Gallery" onClick={togglePlayPause} />
+          <img className='cursor-pointer rounded-xl' src={currentImageUrl} alt="Gallery" onClick={togglePlayPause} />
           <div className="text-xs text-gray-500 mt-1 mb-1">Path: {images[currentIndex]}</div>
         </>
       ) : (

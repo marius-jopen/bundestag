@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-class BundestagLooper {
+class Looper {
   constructor(baseDir) {
     this.baseDir = baseDir; // Base directory containing the BT_XXXX folders
   }
@@ -38,4 +38,4 @@ class BundestagLooper {
   }
 }
 
-export default BundestagLooper;
+export default Looper;
