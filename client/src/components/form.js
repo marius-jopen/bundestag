@@ -44,10 +44,10 @@ export default function BundestagPromptsForm() {
   };
 
 
-	const handleSubmitImage = async (e) => {
+  const handleSubmitImage = async (e) => {
     e.preventDefault();
 
-		const formattedPrompts = prompts.replace(/\n/g, ' ');
+    const formattedPrompts = prompts.replace(/\n/g, ' ');
 
     // Parameters object includes both user-defined and fixed values
     const parameters = {
@@ -79,87 +79,87 @@ export default function BundestagPromptsForm() {
   return (
     <>
     <div className="order-2 lg:order-1">
-			<form onSubmit={handleSubmit} className='text-xs'>
-				<div className='flex gap-4 mb-4'>
-					<label htmlFor="maxFrames" className='min-w-24'>
-					Prompts:
-					</label>
-					<textarea
-						className='w-full h-20 bg-white border rounded-xl px-3 py-2'
-						id="prompts"
-						name="prompts"
-						value={prompts}
-						onChange={(e) => setPrompts(e.target.value)}
-					/>
-				</div>
-				<div className='flex gap-4 mb-4'>
+      <form onSubmit={handleSubmit} className='text-xs'>
+        <div className='flex gap-4 mb-4'>
           <label htmlFor="maxFrames" className='min-w-24'>
-					  Positive Prompts:
-					</label>
-					<textarea
-						className='w-full h-20 bg-white border rounded-xl px-3 py-2'
-						id="positivePrompts"
-						name="positivePrompts"
-						value={positivePrompts}
-						onChange={(e) => setPositivePrompts(e.target.value)}
-					/>
-				</div>
-				<div className='flex gap-4 mb-4'>
+          Prompts:
+          </label>
+          <textarea
+            className='w-full h-20 bg-white border rounded-xl px-3 py-2'
+            id="prompts"
+            name="prompts"
+            value={prompts}
+            onChange={(e) => setPrompts(e.target.value)}
+          />
+        </div>
+        <div className='flex gap-4 mb-4'>
           <label htmlFor="maxFrames" className='min-w-24'>
-					  Negative Prompts:
-					</label>
-					<textarea
-						className='w-full h-32 bg-white border rounded-xl px-3 py-2'
-						id="negativePrompts"
-						name="negativePrompts"
-						value={negativePrompts}
-						onChange={(e) => setNegativePrompts(e.target.value)}
-					/>
-				</div>
-				<div className='flex gap-4 mb-4'>
+            Positive Prompts:
+          </label>
+          <textarea
+            className='w-full h-20 bg-white border rounded-xl px-3 py-2'
+            id="positivePrompts"
+            name="positivePrompts"
+            value={positivePrompts}
+            onChange={(e) => setPositivePrompts(e.target.value)}
+          />
+        </div>
+        <div className='flex gap-4 mb-4'>
           <label htmlFor="maxFrames" className='min-w-24'>
-					  Loras:
-					</label>
-					<textarea
-						className='w-full h-20 bg-white border rounded-xl px-3 py-2'
-						id="loras"
-						name="loras"
-						value={loras}
-						onChange={(e) => setLoras(e.target.value)}
-					/>
-				</div>
-				<div className='flex gap-4 mb-4'>
+            Negative Prompts:
+          </label>
+          <textarea
+            className='w-full h-32 bg-white border rounded-xl px-3 py-2'
+            id="negativePrompts"
+            name="negativePrompts"
+            value={negativePrompts}
+            onChange={(e) => setNegativePrompts(e.target.value)}
+          />
+        </div>
+        <div className='flex gap-4 mb-4'>
           <label htmlFor="maxFrames" className='min-w-24'>
-					Max Frames:
-					</label>
-					<input
-						className='w-full bg-white border rounded-xl px-3 py-2'
-						type="number"
-						id="maxFrames"
-						name="maxFrames"
-						value={maxFrames}
-						onChange={(e) => setMaxFrames(e.target.value)}
-						required
-					/>
-				</div>
-				<input className='cursor-pointer w-full py-2 border transition rounded-lg bg-green-200 hover:bg-green-300' type="submit" value="Generate Video" />
-			</form>
+            Loras:
+          </label>
+          <textarea
+            className='w-full h-20 bg-white border rounded-xl px-3 py-2'
+            id="loras"
+            name="loras"
+            value={loras}
+            onChange={(e) => setLoras(e.target.value)}
+          />
+        </div>
+        <div className='flex gap-4 mb-4'>
+          <label htmlFor="maxFrames" className='min-w-24'>
+          Max Frames:
+          </label>
+          <input
+            className='w-full bg-white border rounded-xl px-3 py-2'
+            type="number"
+            id="maxFrames"
+            name="maxFrames"
+            value={maxFrames}
+            onChange={(e) => setMaxFrames(e.target.value)}
+            required
+          />
+        </div>
+        <input className='uppercase cursor-pointer w-full py-2 border transition rounded-lg bg-green-200 hover:bg-green-300' type="submit" value="Generate Video" />
+      </form>
 
-			<form onSubmit={handleSubmitImage}>
-				<div className='hidden'>
-					<label htmlFor="prompts">Enter your prompt:</label>
-					<input
-						type="text"
-						id="prompts"
-						name="prompts"
-						value={prompts}
-						onChange={(e) => setPrompts(e.target.value)}
-						required
-					/>
-				</div>
-        <input className='cursor-pointer w-full py-2 border transition rounded-lg bg-red-200 text-xs mt-4 hover:bg-red-300' type="submit" value="Stop Video Generation" />
-				<input className='cursor-pointer w-full py-2 border transition rounded-lg bg-blue-200 text-xs mt-4 hover:bg-blue-300' type="submit" value="Generate Image" />
-			</form>
+      <form onSubmit={handleSubmitImage}>
+        <div className='hidden'>
+          <label htmlFor="prompts">Enter your prompt:</label>
+          <input
+            type="text"
+            id="prompts"
+            name="prompts"
+            value={prompts}
+            onChange={(e) => setPrompts(e.target.value)}
+            required
+          />
+        </div>
+        <input className='uppercase cursor-pointer w-full py-2 border transition rounded-lg bg-red-200 text-xs mt-4 hover:bg-red-300' type="submit" value="Stop Video Generation" />
+        <input className='uppercase cursor-pointer w-full py-2 border transition rounded-lg bg-blue-200 text-xs mt-4 hover:bg-blue-300' type="submit" value="Generate Image" />
+      </form>
     </div>
     </>
   );

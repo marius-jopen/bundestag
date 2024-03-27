@@ -2,24 +2,25 @@ import express from "express";
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import BundestagGenerator from './components/generator.js'; // Import the BundestagGenerator
-import BundestagLooper from './components/looper.js'; // Import the new component
-import fs from 'fs'; // Using ES6 import syntax
-
+import BundestagGenerator from './components/generator.js'; // Assuming this is your generator component
+import BundestagLooper from './components/looperFull.js'; // Your full looper component
+import LatestFolderImageLooper from './components/looperLatest.js'; // Make sure the path matches your structure
+import fs from 'fs';
 
 const app = express();
 const port = 4000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// The correct path for the Bundestag output directory
-const bundestagOutputDir = 'E:\\output\\sd-api';
-const bundestagGenerator = new BundestagGenerator(bundestagOutputDir); // Create an instance of BundestagGenerator
+// Assuming these paths match your project structure
 const baseDir = 'E:\\output\\sd-api';
-const bundestagLooper = new BundestagLooper(baseDir);
+const bundestagGenerator = new BundestagGenerator(baseDir); // Initialize BundestagGenerator
+const bundestagLooper = new BundestagLooper(baseDir); // Initialize BundestagLooper
+const latestFolderImageLooper = new LatestFolderImageLooper(baseDir); // Initialize LatestFolderImageLooper
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 // Serve images dynamically from their path
@@ -38,6 +39,17 @@ app.get('/images/*', (req, res) => {
   const filePath = req.params[0].replace(/\\/g, '/'); // Ensure we use forward slashes
   const absolutePath = path.join(baseDir, filePath);
   res.sendFile(absolutePath);
+});
+
+// New route for listing images from the latest folder
+app.get('/list-latest-images', async (req, res) => {
+  try {
+    const images = await latestFolderImageLooper.findPngImagesInLatestFolder();
+    res.json(images);
+  } catch (error) {
+    console.error('Error listing images from the latest folder:', error);
+    res.status(500).json({ message: 'Error listing images from the latest folder.' });
+  }
 });
 
 // Add a new route to serve the images
