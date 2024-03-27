@@ -17,8 +17,8 @@ export default function BundestagPromptsForm() {
     const parameters = {
       deforum_settings: {
         "prompts": {
-          "0": formattedPrompts  + " " + positivePrompts + " " + loras + " --neg " + negativePrompts,
-          [keyframe.toString()]: formattedPrompts  + " " + positivePrompts + " " + loras + " --neg " + negativePrompts  // Use the calculated keyframe
+          "0": formattedPrompts  + " () " + positivePrompts + " " + loras + " --neg " + negativePrompts,
+          [keyframe.toString()]: formattedPrompts  + " // " + positivePrompts + " " + loras + " --neg " + negativePrompts  // Use the calculated keyframe
         },
         "max_frames": parseInt(maxFrames, 10),
       }

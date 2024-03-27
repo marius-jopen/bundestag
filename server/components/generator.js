@@ -137,7 +137,37 @@ class Bundestag {
     }
   }
 
-  
+  async saveSecondPromptInfo(batchName, prompts) {
+    const promptKeys = Object.keys(prompts).sort((a, b) => parseInt(a) - parseInt(b));
+    const secondPromptKey = promptKeys[1]; // Assumes keys can be sorted to find the second prompt
+    let secondPrompt = prompts[secondPromptKey];
+
+    if (secondPrompt) {
+      // Identify the first part of the prompt before the first '('
+      const endIndex = secondPrompt.indexOf('//');
+      if (endIndex !== -1) {
+        // Extract everything before the first '('
+        secondPrompt = secondPrompt.substring(0, endIndex).trim();
+      }
+
+      const batchFolderPath = path.join(this.outputDir, batchName);
+      const infoFilePath = path.join(batchFolderPath, 'info.txt');
+
+
+
+      // HERE I NEED TO HOOK IN AND GIVE THE secondPrompt TO CHATGPT
+
+
+      
+
+      // Ensure the directory exists
+      await fs.promises.mkdir(batchFolderPath, { recursive: true });
+
+      // Write the modified second prompt to info.txt in the batch folder
+      await fs.promises.writeFile(infoFilePath, secondPrompt, 'utf8');
+      console.log(`info.txt saved in ${batchFolderPath} with the prompt portion before parentheses.`);
+    }
+  }
 
   async generateBundestag(parameters) {
     try {
@@ -167,11 +197,13 @@ class Bundestag {
           prompts["0"] = secondLastPrompt;
         }
       }
-  
+
+      
       const batchName = `BT_${String(nextBatchNumber).padStart(4, '0')}`;
       console.log(`Processing for batch: ${batchName}`);
-  
+      
       const videoConfig = Bundestag.getVideoConfig();
+      await this.saveSecondPromptInfo(batchName, prompts);
 
       const modifiedParameters = {
         ...parameters,
