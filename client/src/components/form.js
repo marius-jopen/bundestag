@@ -157,7 +157,7 @@ export default function BundestagPromptsForm() {
             required
           />
         </div>
-        <input className='uppercase cursor-pointer w-full py-2 border transition rounded-lg bg-red-200 text-xs mt-4 hover:bg-red-300' type="submit" value="Stop Video Generation" />
+        {/* <input className='uppercase cursor-pointer w-full py-2 border transition rounded-lg bg-red-200 text-xs mt-4 hover:bg-red-300' type="submit" value="Stop Video Generation" /> */}
         <input className='uppercase cursor-pointer w-full py-2 border transition rounded-lg bg-blue-200 text-xs mt-4 hover:bg-blue-300' type="submit" value="Generate Image" />
       </form>
 

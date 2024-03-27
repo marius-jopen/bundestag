@@ -11,9 +11,9 @@ class Bundestag {
   static baseConfig = {
     seed: 1,
     steps: 20,
-    width: 1024,
-    height: 1024,
-    cfgScale: 7,
+    width: 1216,
+    height: 832,
+    cfgScale: 5,
     samplerName: "Euler a",
   };
 
