@@ -3,18 +3,18 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-
-import generateAnimation from './components/generator/generateAnimation.js'; // Assuming this is your generator component
-import LooperFull from './components/looperFull.js'; // Your full looper component
-import LooperLatest from './components/looperLatest.js'; // Make sure the path matches your structure
-import generateImage from './components/generator/generateImage.js'; // Adjust the path as necessary
+import { basePath } from './config.js'; // Adjust the path as necessary
+import generateAnimation from './components/generator/generateAnimation.js';
+import LooperFull from './components/looperFull.js';
+import LooperLatest from './components/looperLatest.js';
+import generateImage from './components/generator/generateImage.js';
 
 const app = express();
 const port = 4000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const baseDir = 'E:\\output\\sd-api';
-const animation = new generateAnimation(baseDir); // Initialize generateAnimation
-const looperFull = new LooperFull(baseDir); // Initialize LooperFull
+const baseDir = path.join(basePath.replace(/\\/g, '/')); 
+const animation = new generateAnimation(baseDir);
+const looperFull = new LooperFull(baseDir);
 const looperLatest = new LooperLatest(baseDir); // Initialize LooperLatest
 
 app.use(cors());
@@ -29,7 +29,7 @@ app.get('/images/*', (req, res) => {
 });
 
 app.get('/list-preview-images', async (req, res) => {
-  const imagesDir = 'E:/output/sd-api/images';
+  const imagesDir = path.join(baseDir, 'images');
 
   try {
     const files = await fs.promises.readdir(imagesDir);
