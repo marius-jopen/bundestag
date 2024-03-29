@@ -1,4 +1,3 @@
-// readSecondLastPrompt.js
 import fs from 'fs';
 import path from 'path';
 
@@ -20,27 +19,40 @@ async function readSecondLastPrompt(outputDir, nextBatchNumber) {
       console.log(`No .txt file found in ${targetFolderName}.`);
       return false;
     }
-
+    
+    // Assuming there's only one txt file per folder or it's the first txt file we're interested in
     const promptsFilePath = path.join(targetFolderPath, txtFiles[0]);
     const promptsContent = fs.readFileSync(promptsFilePath, 'utf-8');
-    const promptsJson = JSON.parse(promptsContent);
 
-    if (promptsJson && promptsJson.prompts) {
-      const keys = Object.keys(promptsJson.prompts);
-      if (keys.length < 2) {
-        console.log(`Not enough prompts in ${targetFolderName} to fetch the second one.`);
+    let promptsJson;
+    try {
+      promptsJson = JSON.parse(promptsContent);
+    } catch (error) {
+      console.error(`Error parsing JSON from ${promptsFilePath}:`, error);
+      return false;
+    }
+
+    // Verifying the structure of the JSON to ensure it has a 'prompts' object with at least two keys
+    if (promptsJson && typeof promptsJson.prompts === 'object') {
+      const promptKeys = Object.keys(promptsJson.prompts);
+      if (promptKeys.length < 2) {
+        console.log(`Not enough prompts in ${targetFolderName} to fetch the second one. Found keys: ${promptKeys}`);
         return false;
       }
-      const secondPromptKey = keys[1];
+      
+      // Sorting keys to find the second one reliably, assuming numeric keys
+      const sortedKeys = promptKeys.sort((a, b) => Number(a) - Number(b));
+      const secondPromptKey = sortedKeys[1]; // Getting the second key after sorting
       const secondPrompt = promptsJson.prompts[secondPromptKey];
-      console.log(`In ${targetFolderName}, the second prompt is "${secondPrompt}"`);
+      
+      console.log(`In ${targetFolderName}, the second prompt is: ${secondPrompt}`);
       return secondPrompt;
     } else {
-      console.log(`Prompts object not found in ${targetFolderName}.`);
+      console.log(`'prompts' object not found or invalid in ${promptsFilePath}.`);
       return false;
     }
   } catch (error) {
-    console.error(`Error reading or parsing the prompts file in ${targetFolderName}:`, error);
+    console.error(`Error reading file in ${targetFolderPath}:`, error);
     return false;
   }
 }

@@ -3,7 +3,6 @@ import { getVideoConfig, getVideoConfigModified, getVideoConfigOriginal } from '
 import getLastImagePathFromPreviousBatch from './lastImagePreviousBatch.js';
 import getNextBatchNumber from './nextBatchNumber.js';
 import readSecondLastPrompt from './secondLastPrompt.js';
-import saveSecondPromptInfo from './secondPromptInfo.js';
 
 class Generator {
   constructor(outputDir) {
@@ -45,7 +44,6 @@ class Generator {
       const videoConfigOriginal = getVideoConfigOriginal();
 
       // Ensure saveSecondPromptInfo also receives this.outputDir if needed
-      await saveSecondPromptInfo(this.outputDir, batchName, prompts);
 
       const modifiedParameters = {
         ...parameters,
